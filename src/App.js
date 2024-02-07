@@ -1,3 +1,4 @@
+import AddTask from "./components/AddTask";
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import { useState } from "react";
@@ -48,9 +49,20 @@ function App() {
     setTasks(tasks.filter((t) => t.id !== id));
   }
 
+  const onSubmitFormTask = (task) => {
+    const maxId = tasks.reduce((max, curElem) => {
+      return curElem.id > max ? curElem.id : max;
+    }, 0);
+
+    const id = maxId + 1;
+    const newTask = {...task, id};
+    setTasks([...tasks, newTask]);
+  }
+
   return (
     <div className="container">
       <Header />
+      <AddTask taskForm={onSubmitFormTask} />
       {
         tasks.length > 0 
           ? (<Tasks tasks={tasks} onDelete={onDeleteTask} onToggle={onToggleTask} />)
