@@ -7,6 +7,8 @@ import { useState } from "react";
 
 function App() {
 
+  const [showForm, setShowForm] = useState(false)
+
   const [tasks, setTasks] = useState([
     {
         id: 1,
@@ -61,8 +63,14 @@ function App() {
 
   return (
     <div className="container">
-      <Header />
-      <AddTask taskForm={onSubmitFormTask} />
+      <Header 
+        isAddPress={() => setShowForm(!showForm)}
+        isFormOpen={showForm} />
+
+      {
+        showForm === true && <AddTask taskForm={onSubmitFormTask} />
+      }
+      
       {
         tasks.length > 0 
           ? (<Tasks tasks={tasks} onDelete={onDeleteTask} onToggle={onToggleTask} />)
