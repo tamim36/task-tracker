@@ -1,7 +1,10 @@
 import AddTask from "./components/AddTask";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import About from "./components/About";
 
 // 57 min
 
@@ -83,22 +86,35 @@ function App() {
   }
 
   return (
-    <div className="container">
-      <Header 
-        isAddPress={() => setShowForm(!showForm)}
-        isFormOpen={showForm} />
+    <Router>
+        <div className="container">
+        <Header 
+          isAddPress={() => setShowForm(!showForm)}
+          isFormOpen={showForm} />
 
-      {
-        showForm === true && <AddTask taskForm={onSubmitFormTask} />
-      }
-      
-      {
-        tasks.length > 0 
-          ? (<Tasks tasks={tasks} onDelete={onDeleteTask} onToggle={onToggleTask} />)
-          : (<p>No tasks to show</p>)
-      }
-      
-    </div>
+        <Routes>
+          <Route path="/" element={
+            <>
+              {
+                showForm === true && <AddTask taskForm={onSubmitFormTask} />
+              }
+              
+              {
+                tasks.length > 0 
+                  ? (<Tasks tasks={tasks} onDelete={onDeleteTask} onToggle={onToggleTask} />)
+                  : (<p>No tasks to show</p>)
+              }
+            </>
+          } />
+          
+          <Route path="/about" element={<About />} />
+        </Routes>
+        
+        <Footer />
+        
+      </div>
+    </Router>
+    
   );
 }
 
