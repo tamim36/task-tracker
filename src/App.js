@@ -5,6 +5,7 @@ import Tasks from "./components/Tasks";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import About from "./components/About";
+import TaskDetails from "./components/TaskDetails";
 
 // 57 min
 
@@ -106,8 +107,9 @@ function App() {
               }
             </>
           } />
-          
+
           <Route path="/about" element={<About />} />
+          <Route path='task/details/:id' element={<TaskDetails />} />
         </Routes>
         
         <Footer />

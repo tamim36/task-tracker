@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaTimes } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const Task = ({task, onDelete, onToggle}) => {
   return (
@@ -11,6 +12,7 @@ const Task = ({task, onDelete, onToggle}) => {
                 style={{color: 'red', cursor: 'pointer'}} />
         </h3>
         <p>{task.day}</p>
+        <Link to={`task/details/${task.id}`} > View Details </Link>
     </div>
   )
 }
