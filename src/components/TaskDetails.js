@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom' 
+import { useParams, Navigate, useNavigate, useLocation } from 'react-router-dom' 
+import Button from './Button'
 
 const TaskDetails = () => {
   const [loading, setLoading] = useState(true)
@@ -7,11 +8,16 @@ const TaskDetails = () => {
   const [error, setError] = useState(null)
 
   const params = useParams()
+  const navigate = useNavigate()
+  const {pathname}  = useLocation()
 
   const fetchTask = async(id) => {
     const res = await fetch(`http://localhost:5000/tasks/${id}`)
-    const data = await res.json()
+    if (res.status === 404){
+      navigate('/')
+    }
 
+    const data = await res.json()
     return data
   }
 
@@ -19,7 +25,6 @@ const TaskDetails = () => {
     const getTask = async(id) => {
       const taskDetails = await fetchTask(id)
       
-      console.log(taskDetails)
       setTask(taskDetails)
       setLoading(false)
     }
@@ -27,13 +32,22 @@ const TaskDetails = () => {
     getTask(params.id)
   }, [])
 
+  // if (error) {
+  //   return <Navigate to='/' />
+  // }
+
   return loading ? (
     <h3>Loading ...</h3>
   ) : 
   (
     <div>
+      <p>{pathname}</p>
       <h3>{task.text}</h3>
       <p>{task.day}</p>
+      <Button onClickProp={() => {
+        navigate(-1)
+      }}
+      text='Go Back' />
     </div>
   )
 }
